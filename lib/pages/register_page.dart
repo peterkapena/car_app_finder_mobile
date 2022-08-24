@@ -1,0 +1,143 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../common.dart';
+import '../widget/auth_button.dart';
+import '../widget/text_input.dart';
+
+class RegisterPage extends StatefulWidget {
+  final void Function(EAuthPage) toggleScreen;
+  const RegisterPage({
+    super.key,
+    required this.toggleScreen,
+  });
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  //text controllers
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future register() async {
+    if (passwordConfirmed()) {
+// FirebaseAuth.instance.createUserWithEmailAndPassword(
+      //     email: _emailController.text.trim(),
+      //     password: _passwordController.text.trim());
+      //sign in with email and password
+    }
+  }
+
+  bool passwordConfirmed() {
+    return _confirmPasswordController.text.trim() ==
+        _passwordController.text.trim();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).splashColor,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.android,
+                  size: 100,
+                ),
+                //heloo again!
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: authBtnHorizontalPadding,
+                      vertical: authBtnVerticalPadding),
+                  child: Text(
+                    "Hello There",
+                    style: GoogleFonts.bebasNeue(fontSize: 36),
+                  ),
+                ),
+                const Text(
+                  "Register below with your details!",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                //email textfield
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: authBtnHorizontalPadding,
+                      vertical: authBtnVerticalPadding),
+                  child: TextInput(
+                    controller: _emailController,
+                    hintText: "Email",
+                  ),
+                ),
+                //password textfield
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: authBtnHorizontalPadding,
+                      vertical: authBtnVerticalPadding),
+                  child: TextInput(
+                    controller: _passwordController,
+                    hintText: "Password",
+                    obscureText: true,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: authBtnHorizontalPadding,
+                      vertical: authBtnVerticalPadding),
+                  child: TextInput(
+                    controller: _confirmPasswordController,
+                    hintText: "Confirm password",
+                    obscureText: true,
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: authBtnHorizontalPadding,
+                        vertical: authBtnVerticalPadding),
+                    child: AuthButon(
+                      onTap: register,
+                      text: "REGISTER",
+                    )),
+
+                //not a member? register now
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already registered? ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () => widget.toggleScreen(EAuthPage.login),
+                      child: const Text(
+                        " Log in now",
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
