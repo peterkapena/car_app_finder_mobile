@@ -1,5 +1,7 @@
 import 'package:car_app_finder_mobile/widget/auth_button.dart';
 import 'package:car_app_finder_mobile/widget/text_input.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -130,6 +132,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future signIn() async {
-    //sign in with email and password
+    try {
+      showLoading(context);
+      // await Future.delayed(const Duration(seconds: 1));
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
+          .then((value) => Navigator.of(context).pop());
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      showNotice(context, e.toString());
+    }
   }
 }

@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "1047168315852",
+    "project_id": "carfinderapp-22596",
+    "storage_bucket": "carfinderapp-22596.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047168315852:android:ed78a10c5ee293ebc36d69",
+        "android_client_info": {
+          "package_name": "com.car_finder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047168315852-5fq4pl8e8sus7q2713sshvp1oibp8r5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.car_finder",
+            "certificate_hash": "f9316081590a98b67aab347120c5591ab3a29a19"
+          }
+        },
+        {
+          "client_id": "1047168315852-980r9204pvovrj5jc6rv3v7uc0eubt42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDufYnlnCwRg0sL98rsfTqf2CuaeSSAqok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047168315852-980r9204pvovrj5jc6rv3v7uc0eubt42.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1047168315852-jbf272o81jgdaeusgdfov6dq3demlu63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.carAppFinderMobile"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047168315852:android:992aedd894c52620c36d69",
+        "android_client_info": {
+          "package_name": "com.example.car_app_finder_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047168315852-980r9204pvovrj5jc6rv3v7uc0eubt42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDufYnlnCwRg0sL98rsfTqf2CuaeSSAqok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047168315852-980r9204pvovrj5jc6rv3v7uc0eubt42.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1047168315852-jbf272o81jgdaeusgdfov6dq3demlu63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.carAppFinderMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

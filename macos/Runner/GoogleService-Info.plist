@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1047168315852-jbf272o81jgdaeusgdfov6dq3demlu63.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1047168315852-jbf272o81jgdaeusgdfov6dq3demlu63</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1047168315852-5fq4pl8e8sus7q2713sshvp1oibp8r5s.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDh_EWXiUGKRqhGq-0afzjhhfCUVsoiUV4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1047168315852</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.carAppFinderMobile</string>
+	<key>PROJECT_ID</key>
+	<string>carfinderapp-22596</string>
+	<key>STORAGE_BUCKET</key>
+	<string>carfinderapp-22596.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1047168315852:ios:b3f6af261f99e598c36d69</string>
+</dict>
+</plist>

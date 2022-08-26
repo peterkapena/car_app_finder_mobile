@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,8 +22,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
 
   Future passwordReset() async {
-    // await FirebaseAuth.instance
-    // .sendPasswordResetEmail(email: _emailController.text.trim());
+    try {
+      showLoading(context);
+
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(
+            email: _emailController.text.trim(),
+          )
+          .then((value) => Navigator.of(context).pop());
+
+      if (!mounted) return;
+
+      Navigator.of(context).pop();
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      showNotice(context, e.toString());
+    }
   }
 
   @override

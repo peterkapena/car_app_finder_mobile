@@ -1,3 +1,5 @@
+import 'package:car_app_finder_mobile/common.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,14 +21,25 @@ class _HomePageState extends State<HomePage> {
         children: [
           const Text("data"),
           MaterialButton(
-            onPressed: () {
-              // FirebaseAuth.instance.signOut();
-            },
+            onPressed: signout,
             color: Colors.deepPurple[200],
             child: const Text("SIGN OUT"),
           )
         ],
       )), //user.Email
     );
+  }
+
+  Future signout() async {
+    try {
+      showLoading(context);
+      await FirebaseAuth.instance.signOut();
+      if (!mounted) return;
+
+      Navigator.of(context).pop();
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    }
   }
 }

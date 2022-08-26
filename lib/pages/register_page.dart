@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../common.dart';
@@ -31,11 +34,22 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future register() async {
-    if (passwordConfirmed()) {
-// FirebaseAuth.instance.createUserWithEmailAndPassword(
-      //     email: _emailController.text.trim(),
-      //     password: _passwordController.text.trim());
-      //sign in with email and password
+    try {
+      showLoading(context);
+
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
+          .then((value) => Navigator.of(context).pop());
+
+      if (!mounted) return;
+
+      Navigator.of(context).pop();
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      showNotice(context, e.toString());
     }
   }
 
