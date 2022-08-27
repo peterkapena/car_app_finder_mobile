@@ -7,10 +7,12 @@ const textFontSize = 19.0;
 enum EAuthPage { login, register, forgotPassword }
 
 void showNotice(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
         action: SnackBarAction(
-          label: 'Undo',
+          label: 'Ok',
           onPressed: () {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },
@@ -27,9 +29,10 @@ void showNotice(BuildContext context, String message) {
 }
 
 void showLoading(BuildContext context, [String message = "loading"]) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-        duration: const Duration(seconds: 10),
+        duration: const Duration(hours: 1),
         content: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           CircularProgressIndicator(
             color: Theme.of(context).primaryColor,
@@ -45,6 +48,27 @@ void showLoading(BuildContext context, [String message = "loading"]) {
   );
 }
 
-void hideSnackBar(BuildContext context) {
-  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+bool _isValidEmail(String? email) =>
+    RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(email!);
+
+String? validatePassword(String? value, [dynamic passwordControllers]) {
+  if (passwordControllers != null) {
+    var passwords = (passwordControllers as List<TextEditingController>);
+    if (passwords[0].text.trim() != passwords[1].text.trim()) {
+      return "Passwords do not match";
+    }
+  }
+
+  var length = value?.length;
+
+  if (length != null && length <= 6) {
+    return "Passwords should be 6 characters or more";
+  }
+
+  return null;
+}
+
+String? validateEmail(String? value) {
+  if (!_isValidEmail(value)) return "Invalid email";
+  return null;
 }

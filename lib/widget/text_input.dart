@@ -11,6 +11,7 @@ class TextInput extends StatelessWidget {
   final int maxLength;
   final int maxLines;
   final bool required;
+  final bool enabled;
 
   const TextInput({
     super.key,
@@ -22,6 +23,7 @@ class TextInput extends StatelessWidget {
     this.maxLength = 200,
     this.maxLines = 1,
     this.required = false,
+    this.enabled = true,
   });
 
   @override
@@ -34,6 +36,7 @@ class TextInput extends StatelessWidget {
       style: const TextStyle(
         fontSize: textFontSize,
       ),
+      enabled: enabled,
       decoration: InputDecoration(
           prefixIcon: prefixIcon,
           hintText: hintText,
@@ -44,7 +47,7 @@ class TextInput extends StatelessWidget {
         if (required && (value == null || value.isEmpty)) {
           return 'Please enter some text';
         }
-        if (validator != null) validator!(value);
+        if (validator != null) return validator!(value);
         return null;
       },
     );

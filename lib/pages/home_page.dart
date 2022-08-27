@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -33,13 +34,11 @@ class _HomePageState extends State<HomePage> {
   Future signout() async {
     try {
       showLoading(context);
-      await FirebaseAuth.instance.signOut();
-      if (!mounted) return;
-
-      Navigator.of(context).pop();
+      await FirebaseAuth.instance.signOut().then((value) {
+        if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      });
     } catch (e) {
-      if (!mounted) return;
-      Navigator.of(context).pop();
+      showNotice(context, e.toString());
     }
   }
 }
