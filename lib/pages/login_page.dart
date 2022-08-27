@@ -1,3 +1,4 @@
+import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/widget/auth_button.dart';
 import 'package:car_app_finder_mobile/widget/text_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../common.dart';
 
@@ -30,22 +32,22 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  Future signIn() async {
+  Future login(Future<void> Function() login) async {
     try {
       if (_formKey.currentState!.validate()) {
         setState(() {
           _processing = !_processing;
         });
-        showLoading(context);
-        // await Future.delayed(const Duration(seconds: 1));
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: _emailController.text.trim(),
-                password: _passwordController.text.trim())
-            .then((value) => {
-                  if (mounted)
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar()
-                });
+        showLoading(context, "signing in..");
+        var user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+
+        if (user.user != null) {
+          if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+          await login();
+        }
       }
     } catch (e) {
       if (kDebugMode) print(e);
@@ -129,11 +131,12 @@ class _LoginPageState extends State<LoginPage> {
                           )),
                     ],
                   ),
-                  AuthButon(
-                    enabled: !_processing,
-                    onTap: signIn,
-                    text: "LOG IN",
-                  ),
+                  Consumer<AuthNotifier>(
+                      builder: ((context, value, child) => AuthButon(
+                            enabled: !_processing,
+                            onTap: () => login(value.toggleAuth),
+                            text: "Log in",
+                          ))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
