@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
 //text controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -30,100 +31,106 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).splashColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.phone_android,
-                  size: 100,
-                ),
-                //heloo again!
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: authBtnHorizontalPadding,
-                      vertical: authBtnVerticalPadding),
-                  child: Text(
-                    "Hello Again",
-                    style: GoogleFonts.bebasNeue(fontSize: 36),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.phone_android,
+                    size: 100,
                   ),
-                ),
-                const Text(
-                  "Welcome back!",
-                  style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                //email textfield
-                Padding(
+                  //heloo again!
+                  Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: authBtnHorizontalPadding,
                         vertical: authBtnVerticalPadding),
-                    child: TextInput(
-                      controller: _emailController,
-                      hintText: "Email",
-                    )),
-                //password textfield
-                Padding(
+                    child: Text(
+                      "Hello Again",
+                      style: GoogleFonts.bebasNeue(fontSize: 36),
+                    ),
+                  ),
+                  const Text(
+                    "Welcome back!",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  //email textfield
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: authBtnHorizontalPadding,
+                          vertical: authBtnVerticalPadding),
+                      child: TextInput(
+                        controller: _emailController,
+                        hintText: "Email",
+                        required: true,
+                      )),
+                  //password textfield
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: authBtnHorizontalPadding,
+                          vertical: authBtnVerticalPadding),
+                      child: TextInput(
+                          controller: _passwordController,
+                          required: true,
+                          hintText: "Password",
+                          obscureText: true)),
+                  Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: authBtnHorizontalPadding,
                         vertical: authBtnVerticalPadding),
-                    child: TextInput(
-                        controller: _passwordController,
-                        hintText: "Password",
-                        obscureText: true)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: authBtnHorizontalPadding,
-                      vertical: authBtnVerticalPadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () =>
+                              widget.toggleScreen(EAuthPage.forgotPassword),
+                          child: const Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  //sign in button
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: authBtnHorizontalPadding,
+                          vertical: authBtnVerticalPadding),
+                      child: AuthButon(
+                        onTap: signIn,
+                        text: "LOG IN",
+                      )),
+
+                  //not a member? register now
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Text(
+                        "Not a member? ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       GestureDetector(
-                        onTap: () =>
-                            widget.toggleScreen(EAuthPage.forgotPassword),
+                        onTap: () => widget.toggleScreen(EAuthPage.register),
                         child: const Text(
-                          "Forgot password?",
+                          " Register now",
                           style: TextStyle(
                               color: Colors.blue, fontWeight: FontWeight.bold),
                         ),
                       )
                     ],
-                  ),
-                ),
-                //sign in button
-                Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: authBtnHorizontalPadding,
-                        vertical: authBtnVerticalPadding),
-                    child: AuthButon(
-                      onTap: signIn,
-                      text: "LOG IN",
-                    )),
-
-                //not a member? register now
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Not a member? ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    GestureDetector(
-                      onTap: () => widget.toggleScreen(EAuthPage.register),
-                      child: const Text(
-                        " Register now",
-                        style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -133,13 +140,18 @@ class _LoginPageState extends State<LoginPage> {
 
   Future signIn() async {
     try {
-      showLoading(context);
-      // await Future.delayed(const Duration(seconds: 1));
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim())
-          .then((value) => Navigator.of(context).pop());
+      if (_formKey.currentState!.validate()) {
+        showLoading(context);
+        await Future.delayed(const Duration(seconds: 1));
+        // await FirebaseAuth.instance
+        //     .signInWithEmailAndPassword(
+        //         email: _emailController.text.trim(),
+        //         password: _passwordController.text.trim())
+        //     .then((value) => Navigator.of(context).pop());
+
+        if (!mounted) return;
+        hideSnackBar(context);
+      }
     } catch (e) {
       if (!mounted) return;
       Navigator.of(context).pop();

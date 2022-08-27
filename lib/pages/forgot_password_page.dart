@@ -44,7 +44,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).splashColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -79,6 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       horizontal: authBtnHorizontalPadding,
                       vertical: authBtnVerticalPadding),
                   child: TextInput(
+                    required: true,
                     controller: _emailController,
                     hintText: "Email",
                   ),

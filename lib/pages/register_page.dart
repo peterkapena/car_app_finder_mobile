@@ -61,7 +61,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).splashColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -97,6 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: TextInput(
                     controller: _emailController,
                     hintText: "Email",
+                    required: true,
                   ),
                 ),
                 //password textfield
@@ -108,6 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _passwordController,
                     hintText: "Password",
                     obscureText: true,
+                    required: true,
                   ),
                 ),
                 Padding(
@@ -118,6 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _confirmPasswordController,
                     hintText: "Confirm password",
                     obscureText: true,
+                    required: true,
                   ),
                 ),
                 Padding(
