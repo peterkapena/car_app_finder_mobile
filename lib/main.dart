@@ -1,7 +1,10 @@
+import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'theme_change_notifier.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +21,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      home: const MainPage(),
-    );
+    return ChangeNotifierProvider(
+        create: (BuildContext context) => ThemeNotifier(),
+        child: Consumer<ThemeNotifier>(
+          builder: (context, value, child) => MaterialApp(
+              theme: theme(value.isLightTheme),
+              debugShowCheckedModeBanner: false,
+              home: ChangeNotifierProvider(
+                  create: (BuildContext context) => AuthNotifier(),
+                  child: const MainPage())),
+        ));
+
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //   theme: ThemeData(),
+    //   home: const MainPage(),
+    // );
   }
 }

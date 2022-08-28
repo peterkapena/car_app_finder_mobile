@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,23 +21,31 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
+  bool _processing = false;
+  final _formKey = GlobalKey<FormState>();
 
   Future passwordReset() async {
     try {
-      showLoading(context);
-
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(
-            email: _emailController.text.trim(),
-          )
-          .then((value) => Navigator.of(context).pop());
-
-      if (!mounted) return;
-
-      Navigator.of(context).pop();
+      if (_formKey.currentState!.validate()) {
+        setState(() {
+          _processing = !_processing;
+        });
+        showLoading(context);
+        await Future.delayed(const Duration(seconds: 1));
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(
+              email: _emailController.text.trim(),
+            )
+            .then((value) => {
+                  if (mounted)
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar()
+                });
+      }
     } catch (e) {
-      if (!mounted) return;
-      Navigator.of(context).pop();
+      if (kDebugMode) print(e);
+      setState(() {
+        _processing = !_processing;
+      });
       showNotice(context, e.toString());
     }
   }
@@ -44,7 +53,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).splashColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -79,7 +87,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       horizontal: authBtnHorizontalPadding,
                       vertical: authBtnVerticalPadding),
                   child: TextInput(
+                    required: true,
                     controller: _emailController,
+                    enabled: !_processing,
                     hintText: "Email",
                   ),
                 ),
@@ -88,17 +98,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         horizontal: authBtnHorizontalPadding,
                         vertical: authBtnVerticalPadding),
                     child: AuthButon(
+                      enabled: !_processing,
                       onTap: passwordReset,
-                      text: "RESET PASSWORD",
+                      text: "Send",
                     )),
-                GestureDetector(
-                  onTap: () => widget.toggleScreen(EAuthPage.login),
-                  child: const Text(
-                    "Log in",
-                    style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold),
-                  ),
-                )
+                TextButton(
+                    onPressed: () => widget.toggleScreen(EAuthPage.login),
+                    child: const Text(
+                      "Log in",
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold),
+                    ))
               ],
             ),
           ),

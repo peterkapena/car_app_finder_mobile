@@ -1,33 +1,55 @@
 import 'package:flutter/material.dart';
 
+import '../common.dart';
+
 class TextInput extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
+  final String? Function(String?)? validator;
+  final Widget? prefixIcon;
+  final int maxLength;
+  final int maxLines;
+  final bool required;
+  final bool enabled;
 
   const TextInput({
     super.key,
     required this.controller,
     required this.hintText,
     this.obscureText = false,
+    this.validator,
+    this.prefixIcon,
+    this.maxLength = 200,
+    this.maxLines = 1,
+    this.required = false,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Theme.of(context).canvasColor,
-          border: Border.all(color: Theme.of(context).canvasColor)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
-        child: TextField(
-          obscureText: obscureText,
-          controller: controller,
-          decoration:
-              InputDecoration(border: InputBorder.none, hintText: hintText),
-        ),
+    return TextFormField(
+      obscureText: obscureText,
+      controller: controller,
+      maxLength: maxLength,
+      maxLines: maxLines,
+      style: const TextStyle(
+        fontSize: textFontSize,
       ),
+      enabled: enabled,
+      decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          hintText: hintText,
+          border: const OutlineInputBorder(),
+          filled: true,
+          fillColor: Theme.of(context).splashColor),
+      validator: (value) {
+        if (required && (value == null || value.isEmpty)) {
+          return 'Please enter some text';
+        }
+        if (validator != null) return validator!(value);
+        return null;
+      },
     );
   }
 }
