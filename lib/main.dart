@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'pages/home_page.dart';
 import 'theme_change_notifier.dart';
 
 Future main() async {
@@ -23,14 +24,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (BuildContext context) => ThemeNotifier(),
-        child: Consumer<ThemeNotifier>(
-          builder: (context, value, child) => MaterialApp(
-              theme: theme(value.isLightTheme),
-              debugShowCheckedModeBanner: false,
-              home: ChangeNotifierProvider(
-                  create: (BuildContext context) => AuthNotifier(),
-                  child: const MainPage())),
-        ));
+        child: ChangeNotifierProvider(
+            create: (BuildContext context) => AuthNotifier(),
+            child: Consumer<ThemeNotifier>(
+                builder: (context, value, child) => MaterialApp(
+                    theme: theme(value.isLightTheme),
+                    debugShowCheckedModeBanner: false,
+                    home:
+                        //  Consumer<AuthNotifier>(
+                        //     builder: ((context, value, child) => value.isLoggedIn
+                        value.isLightTheme
+                            ? const HomePage()
+                            : const AuthPage()))));
 
     // return MaterialApp(
     //   debugShowCheckedModeBanner: false,

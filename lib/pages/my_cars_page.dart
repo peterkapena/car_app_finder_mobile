@@ -10,9 +10,7 @@ class MyCarsPage extends StatefulWidget {
 class _MyCarsPageState extends State<MyCarsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      child: Center(child: Text("MyCarsPage")),
-    ));
+    return const Scaffold(
+        body: SizedBox(child: Center(child: Text("MyCarsPage"))));
   }
 }

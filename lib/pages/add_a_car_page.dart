@@ -10,9 +10,6 @@ class AddAcarPage extends StatefulWidget {
 class _AddAcarPageState extends State<AddAcarPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      child: Center(child: Text("AddAcarPage")),
-    ));
+    return const Scaffold(body: Center(child: Text("AddAcarPage")));
   }
 }

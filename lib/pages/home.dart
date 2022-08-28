@@ -43,14 +43,14 @@ class _HomeState extends State<Home> {
                 style: GoogleFonts.bebasNeue(fontSize: 36),
               ),
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.info),
               title: Text(
                 "Press on the car for directions to that car .",
                 style: TextStyle(fontSize: textFontSize),
               ),
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.info),
               title: Text(
                 "Long press to edit car.",
@@ -70,8 +70,8 @@ class _HomeState extends State<Home> {
                     var car = cars[index];
                     return ListTile(
                         iconColor: Theme.of(context).primaryColor,
-                        leading: Icon(Icons.car_crash_outlined),
-                        trailing: Icon(Icons.gps_fixed),
+                        leading: const Icon(Icons.car_crash_outlined),
+                        trailing: const Icon(Icons.gps_fixed),
                         title: Text(car.name),
                         onTap: () => Navigator.push(
                               context,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../auth_change_modifier.dart';
@@ -18,16 +17,6 @@ class MainPage extends StatelessWidget {
       body: Consumer<AuthNotifier>(
           builder: ((context, value, child) =>
               value.isLoggedIn ? const HomePage() : const AuthPage())),
-      //  StreamBuilder<User?>(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: ((context, snapshot) {
-      //     if (snapshot.hasData) {
-      //       return const HomePage();
-      //     } else {
-      //       return const AuthPage();
-      //     }
-      //   }),
-      // ),
     );
   }
 }

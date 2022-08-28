@@ -2,7 +2,6 @@ import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/widget/auth_button.dart';
 import 'package:car_app_finder_mobile/widget/text_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  Future login(Future<void> Function() login) async {
+  Future login() async {
     try {
       if (_formKey.currentState!.validate()) {
         setState(() {
@@ -44,9 +43,14 @@ class _LoginPageState extends State<LoginPage> {
             password: _passwordController.text.trim());
 
         if (user.user != null) {
-          if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-          await login();
+          if (mounted) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            await Provider.of<AuthNotifier>(context, listen: false)
+                .toggleAuth();
+          }
+        } else if (mounted) {
+          showNotice(
+              context, "Log in failed. Please contact support for help.");
         }
       }
     } catch (e) {
@@ -131,12 +135,11 @@ class _LoginPageState extends State<LoginPage> {
                           )),
                     ],
                   ),
-                  Consumer<AuthNotifier>(
-                      builder: ((context, value, child) => AuthButon(
-                            enabled: !_processing,
-                            onTap: () => login(value.toggleAuth),
-                            text: "Log in",
-                          ))),
+                  AuthButon(
+                    enabled: !_processing,
+                    onTap: login,
+                    text: "Log in",
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

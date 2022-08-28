@@ -72,3 +72,7 @@ String? validateEmail(String? value) {
   if (!_isValidEmail(value)) return "Invalid email";
   return null;
 }
+
+Future simulate() async {
+  await Future.delayed(const Duration(seconds: 5));
+}

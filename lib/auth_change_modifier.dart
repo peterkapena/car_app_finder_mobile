@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthNotifier with ChangeNotifier {
   final String _key = 'user';
-  bool _isLoggedIn = true;
+  bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
   AuthNotifier() {

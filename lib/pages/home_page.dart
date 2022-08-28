@@ -1,5 +1,4 @@
 import 'package:car_app_finder_mobile/common.dart';
-import 'package:car_app_finder_mobile/models/car.dart';
 import 'package:car_app_finder_mobile/pages/add_a_car_page.dart';
 import 'package:car_app_finder_mobile/pages/my_cars_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,8 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Home(),
     MyCarsPage(),

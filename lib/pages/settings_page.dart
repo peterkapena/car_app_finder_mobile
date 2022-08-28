@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,14 +14,14 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Future<void> logout(Future<void> Function() toggleAuth) async {
+  Future<void> logout() async {
     try {
       showLoading(context);
-      // Future.delayed(const Duration(seconds: 5)).then((value) =>
-      //     {if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar()});
       await FirebaseAuth.instance.signOut();
-      if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      await toggleAuth();
+      if (mounted) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        await Provider.of<AuthNotifier>(context, listen: false).toggleAuth();
+      }
     } catch (e) {
       showNotice(context, e.toString());
     }
@@ -31,31 +30,29 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     var settings = [
-      Consumer<AuthNotifier>(
-          builder: ((context, value, child) => ListTile(
-                iconColor: Theme.of(context).primaryColor,
-                leading: const Icon(Icons.logout),
-                onTap: () => logout(value.toggleAuth),
-                title: const Text("Log out"),
-              ))),
-      Consumer<ThemeNotifier>(
-          builder: (context, notifier, child) => ListTile(
-                iconColor: Theme.of(context).primaryColor,
-                leading: const Icon(Icons.light_mode_outlined),
-                onTap: notifier.toggleTheme,
-                title: const Text("Switch theme"),
-              ))
+      ListTile(
+        iconColor: Theme.of(context).primaryColor,
+        leading: const Icon(Icons.logout),
+        onTap: logout,
+        title: const Text("Log out"),
+      ),
+      ListTile(
+        iconColor: Theme.of(context).primaryColor,
+        leading: const Icon(Icons.light_mode_outlined),
+        onTap: () async =>
+            await Provider.of<ThemeNotifier>(context, listen: false)
+                .toggleTheme(),
+        title: const Text("Switch theme"),
+      )
     ];
 
     return Scaffold(
-        appBar: AppBar(title: Text("Settings")),
-        body: Container(
-            child: ListView.separated(
-                itemCount: settings.length,
-                separatorBuilder: (BuildContext context, int index) => Divider(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                itemBuilder: (BuildContext context, int index) =>
-                    settings[index])));
+        appBar: AppBar(title: const Text("Settings")),
+        body: ListView.separated(
+            itemCount: settings.length,
+            separatorBuilder: (BuildContext context, int index) => Divider(
+                  color: Theme.of(context).primaryColor,
+                ),
+            itemBuilder: (BuildContext context, int index) => settings[index]));
   }
 }
