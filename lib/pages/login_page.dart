@@ -37,17 +37,20 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           _processing = !_processing;
         });
-        showLoading(context, "signing in..");
-        var user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        showLoading(context, "Signing in..");
+
+        var user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          await gotoHomePage();
+          return;
+        }
+
+        var userCred = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim());
 
-        if (user.user != null) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            await Provider.of<AuthNotifier>(context, listen: false)
-                .toggleAuth();
-          }
+        if (userCred.user != null) {
+          await gotoHomePage();
         } else if (mounted) {
           showNotice(
               context, "Log in failed. Please contact support for help.");
@@ -59,6 +62,13 @@ class _LoginPageState extends State<LoginPage> {
         _processing = !_processing;
       });
       showNotice(context, e.toString());
+    }
+  }
+
+  Future<void> gotoHomePage() async {
+    if (mounted) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      await Provider.of<AuthNotifier>(context, listen: false).toggleAuth();
     }
   }
 

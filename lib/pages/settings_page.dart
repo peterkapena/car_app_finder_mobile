@@ -18,10 +18,12 @@ class _SettingsPageState extends State<SettingsPage> {
     try {
       showLoading(context);
       await FirebaseAuth.instance.signOut();
+
       if (mounted) {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         await Provider.of<AuthNotifier>(context, listen: false).toggleAuth();
       }
+      if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      if (mounted) Navigator.pop(context);
     } catch (e) {
       showNotice(context, e.toString());
     }

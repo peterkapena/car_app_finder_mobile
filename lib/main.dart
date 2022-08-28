@@ -25,17 +25,16 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (BuildContext context) => ThemeNotifier(),
         child: ChangeNotifierProvider(
-            create: (BuildContext context) => AuthNotifier(),
-            child: Consumer<ThemeNotifier>(
-                builder: (context, value, child) => MaterialApp(
-                    theme: theme(value.isLightTheme),
-                    debugShowCheckedModeBanner: false,
-                    home:
-                        //  Consumer<AuthNotifier>(
-                        //     builder: ((context, value, child) => value.isLoggedIn
-                        value.isLightTheme
-                            ? const HomePage()
-                            : const AuthPage()))));
+          create: (BuildContext context) => AuthNotifier(),
+          child: Consumer<ThemeNotifier>(
+              builder: (context, value, child) => MaterialApp(
+                  theme: theme(value.isLightTheme),
+                  debugShowCheckedModeBanner: false,
+                  home: Consumer<AuthNotifier>(
+                      builder: ((context, value, child) => value.isLoggedIn
+                          ? const HomePage()
+                          : const AuthPage())))),
+        ));
 
     // return MaterialApp(
     //   debugShowCheckedModeBanner: false,
