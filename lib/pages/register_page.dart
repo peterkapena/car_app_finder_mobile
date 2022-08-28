@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../auth_change_modifier.dart';
 import '../common.dart';
 import '../widget/auth_button.dart';
 import '../widget/text_input.dart';
@@ -33,20 +35,32 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  Future<void> gotoHomePage() async {
+    if (mounted) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      await Provider.of<AuthNotifier>(context, listen: false).toggleAuth();
+    }
+  }
+
   Future register() async {
     try {
       if (_formKey.currentState!.validate()) {
         _processing = !_processing;
         showLoading(context);
         await Future.delayed(const Duration(seconds: 3));
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: _emailController.text.trim(),
-                password: _passwordController.text.trim())
-            .then((value) => {
-                  if (mounted)
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar()
-                });
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+
+        var user = FirebaseAuth.instance.currentUser;
+
+        if (user != null) {
+          await gotoHomePage();
+          return;
+        } else if (mounted) {
+          showNotice(
+              context, "Registration failed. Please contact support for help.");
+        }
       }
     } catch (e) {
       showNotice(context, e.toString());
@@ -133,7 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: AuthButon(
                         enabled: !_processing,
                         onTap: register,
-                        text: "REGISTER",
+                        text: "Register",
                       )),
 
                   //not a member? register now
