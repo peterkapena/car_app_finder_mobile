@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 const authBtnHorizontalPadding = 25.0;
 const authBtnVerticalPadding = 10.0;
 const textFontSize = 19.0;
+const testWebViewUrl =
+    "https://carfinderapp-22596.web.app/?from0=-33.90898033883036&from1=18.54119705730616&to0=-33.917434553566565&to1=18.544792574809094";
 
 enum EAuthPage { login, register, forgotPassword }
 

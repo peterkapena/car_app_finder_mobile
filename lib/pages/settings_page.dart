@@ -1,5 +1,7 @@
+import 'package:car_app_finder_mobile/pages/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../auth_change_modifier.dart';
@@ -20,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
       await FirebaseAuth.instance.signOut();
 
       if (mounted) {
-        await Provider.of<AuthNotifier>(context, listen: false).toggleAuth();
+        await Provider.of<AuthNotifier>(context, listen: false).setAuth(true);
       }
       if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
       if (mounted) Navigator.pop(context);
@@ -34,9 +36,13 @@ class _SettingsPageState extends State<SettingsPage> {
     var settings = [
       ListTile(
         iconColor: Theme.of(context).primaryColor,
-        leading: const Icon(Icons.logout),
-        onTap: logout,
-        title: const Text("Log out"),
+        leading: const Icon(Icons.person),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const UserProfile()));
+        },
+        title: const Text("My profile"),
       ),
       ListTile(
         iconColor: Theme.of(context).primaryColor,
@@ -45,7 +51,13 @@ class _SettingsPageState extends State<SettingsPage> {
             await Provider.of<ThemeNotifier>(context, listen: false)
                 .toggleTheme(),
         title: const Text("Switch theme"),
-      )
+      ),
+      ListTile(
+        iconColor: Theme.of(context).primaryColor,
+        leading: const Icon(Icons.logout),
+        onTap: logout,
+        title: const Text("Log out"),
+      ),
     ];
 
     return Scaffold(

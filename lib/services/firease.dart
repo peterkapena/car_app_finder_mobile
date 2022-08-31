@@ -1,0 +1,1 @@
+const carCollectionName = "car";

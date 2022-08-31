@@ -7,12 +7,12 @@ class AuthNotifier with ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
 
   AuthNotifier() {
-    _isLoggedIn = false;
+    // _isLoggedIn = false;
     _loadFromPrefs();
   }
 
-  Future<void> toggleAuth() async {
-    _isLoggedIn = !_isLoggedIn;
+  Future<void> setAuth(bool isLoggedIn) async {
+    _isLoggedIn = isLoggedIn;
     await _savePrefs();
     notifyListeners();
   }

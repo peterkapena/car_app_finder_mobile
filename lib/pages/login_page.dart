@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> gotoHomePage() async {
     if (mounted) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      await Provider.of<AuthNotifier>(context, listen: false).toggleAuth();
+      await Provider.of<AuthNotifier>(context, listen: false).setAuth(true);
     }
   }
 

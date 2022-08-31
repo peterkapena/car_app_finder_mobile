@@ -1,5 +1,6 @@
 import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/pages/main_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -31,15 +32,11 @@ class MyApp extends StatelessWidget {
                   theme: theme(value.isLightTheme),
                   debugShowCheckedModeBanner: false,
                   home: Consumer<AuthNotifier>(
-                      builder: ((context, value, child) => value.isLoggedIn
-                          ? const HomePage()
-                          : const AuthPage())))),
+                      builder: ((context, value, child) =>
+                          FirebaseAuth.instance.currentUser != null &&
+                                  value.isLoggedIn
+                              ? const HomePage()
+                              : const AuthPage())))),
         ));
-
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   theme: ThemeData(),
-    //   home: const MainPage(),
-    // );
   }
 }
