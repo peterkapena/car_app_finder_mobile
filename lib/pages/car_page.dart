@@ -1,6 +1,9 @@
+import 'package:car_app_finder_mobile/main.dart';
 import 'package:car_app_finder_mobile/models/car.dart';
+import 'package:car_app_finder_mobile/pages/car_edit_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../common.dart';
@@ -49,7 +52,7 @@ class _CarPageState extends State<CarPage> {
     if (mounted) showNotice(context, "The car has been updated");
   }
 
-  Future validateThenSubmit() async {
+  Future _validateThenSubmit() async {
     try {
       if (_formKey.currentState!.validate()) {
         setState(() {
@@ -72,16 +75,6 @@ class _CarPageState extends State<CarPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Car profile"),
-          actions: [
-            IconButton(
-                color: Theme.of(context).errorColor,
-                onPressed: () {
-                  carsRef.doc(widget.car.id).delete();
-                  // .then((value) => Navigator.pop(context))
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.delete))
-          ],
         ),
         body: SafeArea(
             child: Center(
@@ -95,7 +88,6 @@ class _CarPageState extends State<CarPage> {
                     Icons.garage_outlined,
                     size: 100,
                   ),
-                  //heloo again!
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: authBtnHorizontalPadding,
@@ -105,40 +97,88 @@ class _CarPageState extends State<CarPage> {
                       style: GoogleFonts.bebasNeue(fontSize: 36),
                     ),
                   ),
-
-                  //email textfield
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: authBtnHorizontalPadding,
-                          vertical: authBtnVerticalPadding),
-                      child: TextInput(
-                        enabled: !_processing,
-                        controller: _nameController,
-                        // validator: validateEmail,
-                        hintText: "Car name",
-                        prefixIcon: const Icon(Icons.car_repair_outlined),
-                        required: true,
-                      )),
-                  //password textfield
                   Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: authBtnHorizontalPadding,
                       ),
-                      child: TextInput(
-                          prefixIcon: const Icon(Icons.gps_fixed),
-                          enabled: !_processing,
-                          controller: _trackerIdController,
-                          required: true,
-                          // validator: (value) => validatePassword(value),
-                          hintText: "Tracker id")),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 30),
-                      // backgroundColor: Theme.of(context).primaryColor, //<-- SEE HERE
-                    ),
-                    onPressed: _processing ? null : validateThenSubmit,
-                    child: const Text(
-                      "Save",
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("Tracker id"),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            widget.car.trackerId,
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ],
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            // backgroundColor: Theme.of(context).errorColor,
+
+                            textStyle: TextStyle(),
+                            backgroundColor:
+                                Theme.of(context).primaryColor, //<-- SEE HERE
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            "History",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            // backgroundColor: Theme.of(context).errorColor,
+
+                            textStyle: TextStyle(),
+                            backgroundColor:
+                                Theme.of(context).primaryColor, //<-- SEE HERE
+                          ),
+                          onPressed: (() => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CarEditPage(car: widget.car)),
+                              )),
+                          child: const Text(
+                            "Edit",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            // backgroundColor: Theme.of(context).errorColor,
+
+                            textStyle: TextStyle(),
+                            backgroundColor:
+                                Theme.of(context).primaryColor, //<-- SEE HERE
+                          ),
+                          onPressed: () {
+                            carsRef.doc(widget.car.id).delete();
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Delete",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
