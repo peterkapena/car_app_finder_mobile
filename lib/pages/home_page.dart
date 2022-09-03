@@ -3,7 +3,6 @@ import 'package:car_app_finder_mobile/pages/car_page.dart';
 import 'package:car_app_finder_mobile/services/firease.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,13 +32,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final carsRef = FirebaseFirestore.instance
-      .collection(carCollectionName)
-      .withConverter<Car>(
-        fromFirestore: (snapshots, _) => Car.fromJson(snapshots.data()!),
-        toFirestore: (car, _) => car.toJson(),
-      );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,6 +80,13 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: textFontSize),
                   ),
                 ),
+                const ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text(
+                    "Swipe any direction to delete.",
+                    style: TextStyle(fontSize: textFontSize),
+                  ),
+                ),
                 FirebaseAuth.instance.currentUser == null
                     ? Container()
                     : Expanded(
@@ -113,12 +112,13 @@ class _HomePageState extends State<HomePage> {
                               final data = snapshot.requireData;
 
                               return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 18),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 18, horizontal: 15),
                                 child: ListView.separated(
                                   separatorBuilder:
                                       (BuildContext context, int index) =>
                                           Divider(
+                                    thickness: 1.5,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                   shrinkWrap: true,
@@ -126,28 +126,45 @@ class _HomePageState extends State<HomePage> {
                                   itemBuilder: (context, index) {
                                     final car = data.docs[index].data();
 
-                                    return ListTile(
-                                        iconColor:
-                                            Theme.of(context).primaryColor,
-                                        leading: const Icon(
-                                            Icons.car_crash_outlined),
-                                        trailing: const Icon(Icons.gps_fixed),
-                                        title: Text(car.name),
-                                        onLongPress: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => CarPage(
-                                                car: car,
-                                              ),
-                                            )),
-                                        onTap: () => Navigator.push(
+                                    return Dismissible(
+                                      background: Container(
+                                        color: Theme.of(context).errorColor,
+                                      ),
+                                      key: ValueKey<Car>(car),
+                                      onDismissed:
+                                          (DismissDirection direction) {
+                                        carsRef
+                                            .doc(car.id)
+                                            .delete()
+                                            .then((value) => setState(() {}));
+                                      },
+                                      child: ListTile(
+                                          iconColor:
+                                              Theme.of(context).primaryColor,
+                                          leading: CircleAvatar(
+                                            backgroundColor:
+                                                Theme.of(context).primaryColor,
+                                            child: const Icon(Icons.garage),
+                                          ),
+                                          trailing:
+                                              const Icon(Icons.directions),
+                                          title: Text(car.name),
+                                          onLongPress: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const MapPage(
-                                                        url: testWebViewUrl,
-                                                      )),
-                                            ));
+                                                builder: (context) => CarPage(
+                                                  car: car,
+                                                ),
+                                              )),
+                                          onTap: () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const MapPage(
+                                                          url: testWebViewUrl,
+                                                        )),
+                                              )),
+                                    );
                                   },
                                 ),
                               );

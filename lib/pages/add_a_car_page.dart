@@ -24,6 +24,13 @@ class _AddAcarPageState extends State<AddAcarPage> {
   CollectionReference cars =
       FirebaseFirestore.instance.collection(carCollectionName);
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _trackerIdController.dispose();
+    super.dispose();
+  }
+
   Future submit() async {
     // await simulate();
     var user = FirebaseAuth.instance.currentUser;
@@ -92,7 +99,7 @@ class _AddAcarPageState extends State<AddAcarPage> {
                         controller: _nameController,
                         // validator: validateEmail,
                         hintText: "Car name",
-                        prefixIcon: Icon(Icons.car_repair_outlined),
+                        prefixIcon: const Icon(Icons.car_repair_outlined),
                         required: true,
                       )),
                   //password textfield
@@ -101,7 +108,7 @@ class _AddAcarPageState extends State<AddAcarPage> {
                         horizontal: authBtnHorizontalPadding,
                       ),
                       child: TextInput(
-                          prefixIcon: Icon(Icons.gps_fixed),
+                          prefixIcon: const Icon(Icons.gps_fixed),
                           enabled: !_processing,
                           controller: _trackerIdController,
                           required: true,

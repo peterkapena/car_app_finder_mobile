@@ -34,7 +34,7 @@ void showLoading(BuildContext context, [String message = "loading"]) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-        duration: const Duration(hours: 1),
+        duration: const Duration(seconds: 10),
         content: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           CircularProgressIndicator(
             color: Theme.of(context).primaryColor,

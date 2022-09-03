@@ -24,6 +24,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool _processing = false;
   final _formKey = GlobalKey<FormState>();
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
   Future passwordReset() async {
     try {
       if (_formKey.currentState!.validate()) {

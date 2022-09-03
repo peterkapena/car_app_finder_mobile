@@ -2,10 +2,15 @@ class Car {
   final String name;
   final String trackerId;
   final String userId;
+  final String? id;
 
-  Car({required this.name, required this.trackerId, required this.userId});
+  Car(
+      {this.id,
+      required this.name,
+      required this.trackerId,
+      required this.userId});
 
-  Car.fromJson(Map<String, dynamic> json)
+  Car.fromJson(Map<String, dynamic> json, this.id)
       : name = json['name'],
         trackerId = json['trackerId'],
         userId = json['userId'];
@@ -15,4 +20,6 @@ class Car {
         'trackerId': trackerId,
         'userId': userId,
       };
+
+  delete() {}
 }
