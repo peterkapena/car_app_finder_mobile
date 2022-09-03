@@ -20,6 +20,6 @@ class Car {
         'trackerId': trackerId,
         'userId': userId,
       };
-
-  delete() {}
 }
+
+enum CarQuery { userId }

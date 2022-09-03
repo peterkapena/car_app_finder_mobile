@@ -17,24 +17,15 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,11 +43,43 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBGckabqlj4bMgLZLLRXaqlL33qqqpObpI',
+    appId: '1:1047168315852:web:8167968461dfb43ec36d69',
+    messagingSenderId: '1047168315852',
+    projectId: 'carfinderapp-22596',
+    authDomain: 'carfinderapp-22596.firebaseapp.com',
+    storageBucket: 'carfinderapp-22596.appspot.com',
+    measurementId: 'G-HVS6SNZ3WH',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDufYnlnCwRg0sL98rsfTqf2CuaeSSAqok',
     appId: '1:1047168315852:android:992aedd894c52620c36d69',
     messagingSenderId: '1047168315852',
     projectId: 'carfinderapp-22596',
     storageBucket: 'carfinderapp-22596.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDh_EWXiUGKRqhGq-0afzjhhfCUVsoiUV4',
+    appId: '1:1047168315852:ios:b3f6af261f99e598c36d69',
+    messagingSenderId: '1047168315852',
+    projectId: 'carfinderapp-22596',
+    storageBucket: 'carfinderapp-22596.appspot.com',
+    androidClientId: '1047168315852-5fq4pl8e8sus7q2713sshvp1oibp8r5s.apps.googleusercontent.com',
+    iosClientId: '1047168315852-jbf272o81jgdaeusgdfov6dq3demlu63.apps.googleusercontent.com',
+    iosBundleId: 'com.example.carAppFinderMobile',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDh_EWXiUGKRqhGq-0afzjhhfCUVsoiUV4',
+    appId: '1:1047168315852:ios:b3f6af261f99e598c36d69',
+    messagingSenderId: '1047168315852',
+    projectId: 'carfinderapp-22596',
+    storageBucket: 'carfinderapp-22596.appspot.com',
+    androidClientId: '1047168315852-5fq4pl8e8sus7q2713sshvp1oibp8r5s.apps.googleusercontent.com',
+    iosClientId: '1047168315852-jbf272o81jgdaeusgdfov6dq3demlu63.apps.googleusercontent.com',
+    iosBundleId: 'com.example.carAppFinderMobile',
   );
 }

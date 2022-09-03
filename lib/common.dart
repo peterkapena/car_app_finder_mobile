@@ -4,7 +4,8 @@ const authBtnHorizontalPadding = 25.0;
 const authBtnVerticalPadding = 10.0;
 const textFontSize = 19.0;
 const testWebViewUrl =
-    "https://carfinderapp-22596.web.app/?from0=-33.90898033883036&from1=18.54119705730616&to0=-33.917434553566565&to1=18.544792574809094";
+    "https://carfinderapp-22596.web.app/?fLatLng=-33.915641412409975,18.641370371711766&tLatLng=-33.9044644901318,18.646253586568918";
+const mapUrl = "https://carfinderapp-22596.web.app/";
 
 enum EAuthPage { login, register, forgotPassword }
 
@@ -34,7 +35,7 @@ void showLoading(BuildContext context, [String message = "loading"]) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-        duration: const Duration(seconds: 10),
+        duration: const Duration(hours: 1),
         content: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           CircularProgressIndicator(
             color: Theme.of(context).primaryColor,
