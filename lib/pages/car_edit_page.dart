@@ -55,7 +55,7 @@ class _CarEditPageState extends State<CarEditPage> {
         setState(() {
           _processing = !_processing;
         });
-        showLoading(context, "Editing car..");
+        showNotice(context, "Editing car..");
         await submit();
       }
     } catch (e) {

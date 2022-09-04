@@ -1,5 +1,6 @@
 import 'package:car_app_finder_mobile/main.dart';
 import 'package:car_app_finder_mobile/models/car.dart';
+import 'package:car_app_finder_mobile/models/tracker.dart';
 import 'package:car_app_finder_mobile/pages/car_edit_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../common.dart';
 import '../services/firease.dart';
 import '../widget/text_input.dart';
+import 'history_page.dart';
 
 class CarPage extends StatefulWidget {
   final Car car;
@@ -52,24 +54,6 @@ class _CarPageState extends State<CarPage> {
     if (mounted) showNotice(context, "The car has been updated");
   }
 
-  Future _validateThenSubmit() async {
-    try {
-      if (_formKey.currentState!.validate()) {
-        setState(() {
-          _processing = !_processing;
-        });
-        showLoading(context, "Editing car..");
-        await submit();
-      }
-    } catch (e) {
-      if (kDebugMode) print(e);
-      setState(() {
-        _processing = !_processing;
-      });
-      showNotice(context, e.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,13 +88,33 @@ class _CarPageState extends State<CarPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("Tracker id"),
-                          SizedBox(
-                            width: 8,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).splashColor,
+                                  borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.all(8),
+                              child: const Text(
+                                "Tracker id:",
+                                style: TextStyle(
+                                    fontSize: textFontSize,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
-                          Text(
-                            widget.car.trackerId,
-                            style: TextStyle(fontSize: 15),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).splashColor,
+                                  borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                widget.car.trackerId,
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                            ),
                           ),
                         ],
                       )),
@@ -121,13 +125,16 @@ class _CarPageState extends State<CarPage> {
                       children: [
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            // backgroundColor: Theme.of(context).errorColor,
-
-                            textStyle: TextStyle(),
-                            backgroundColor:
-                                Theme.of(context).primaryColor, //<-- SEE HERE
+                            backgroundColor: Theme.of(context).primaryColor,
                           ),
-                          onPressed: () {},
+                          onPressed: (() => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HistoryPage(
+                                          carId: widget.car.id,
+                                          trackerId: widget.car.trackerId,
+                                        )),
+                              )),
                           child: const Text(
                             "History",
                             style: TextStyle(
@@ -138,11 +145,7 @@ class _CarPageState extends State<CarPage> {
                         ),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            // backgroundColor: Theme.of(context).errorColor,
-
-                            textStyle: TextStyle(),
-                            backgroundColor:
-                                Theme.of(context).primaryColor, //<-- SEE HERE
+                            backgroundColor: Theme.of(context).primaryColor,
                           ),
                           onPressed: (() => Navigator.push(
                                 context,
@@ -160,11 +163,7 @@ class _CarPageState extends State<CarPage> {
                         ),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            // backgroundColor: Theme.of(context).errorColor,
-
-                            textStyle: TextStyle(),
-                            backgroundColor:
-                                Theme.of(context).primaryColor, //<-- SEE HERE
+                            backgroundColor: Theme.of(context).errorColor,
                           ),
                           onPressed: () {
                             carsRef.doc(widget.car.id).delete();

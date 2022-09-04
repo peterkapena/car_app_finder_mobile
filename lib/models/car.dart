@@ -2,10 +2,10 @@ class Car {
   final String name;
   final String trackerId;
   final String userId;
-  final String? id;
+  final String id;
 
   Car(
-      {this.id,
+      {required this.id,
       required this.name,
       required this.trackerId,
       required this.userId});

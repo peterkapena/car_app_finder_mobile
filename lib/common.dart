@@ -6,6 +6,8 @@ const textFontSize = 19.0;
 const testWebViewUrl =
     "https://carfinderapp-22596.web.app/?fLatLng=-33.915641412409975,18.641370371711766&tLatLng=-33.9044644901318,18.646253586568918";
 const mapUrl = "https://carfinderapp-22596.web.app/";
+const historyUrlTest =
+    "https://carfinderapp-22596.web.app/history?c=wewewewefdfdfwewewew&t=wewewewe2323232323/";
 
 enum EAuthPage { login, register, forgotPassword }
 

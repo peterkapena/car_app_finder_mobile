@@ -35,6 +35,7 @@ class _AddAcarPageState extends State<AddAcarPage> {
     // await simulate();
     var user = FirebaseAuth.instance.currentUser;
     var c = Car(
+        id: "",
         name: _nameController.text.trim(),
         trackerId: _trackerIdController.text.trim(),
         userId: user!.uid);
