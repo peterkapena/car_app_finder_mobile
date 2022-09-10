@@ -1,6 +1,5 @@
 import 'package:car_app_finder_mobile/common.dart';
 import 'package:car_app_finder_mobile/models/tracker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:webview_flutter/webview_flutter.dart';

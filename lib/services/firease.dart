@@ -1,4 +1,3 @@
-import 'package:car_app_finder_mobile/models/tracker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/car.dart';

@@ -1,15 +1,10 @@
-import 'package:car_app_finder_mobile/main.dart';
 import 'package:car_app_finder_mobile/models/car.dart';
-import 'package:car_app_finder_mobile/models/tracker.dart';
 import 'package:car_app_finder_mobile/pages/car_edit_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../common.dart';
 import '../services/firease.dart';
-import '../widget/text_input.dart';
 import 'history_page.dart';
 
 class CarPage extends StatefulWidget {
@@ -22,7 +17,6 @@ class CarPage extends StatefulWidget {
 
 class _CarPageState extends State<CarPage> {
   final _formKey = GlobalKey<FormState>();
-  bool _processing = false;
   final _nameController = TextEditingController();
   final _trackerIdController = TextEditingController();
 
