@@ -1,20 +1,11 @@
 import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/pages/main_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
 import 'pages/home_page.dart';
 import 'theme_change_notifier.dart';
 
-Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+void main() {
   runApp(const MyApp());
 }
 
@@ -32,11 +23,9 @@ class MyApp extends StatelessWidget {
                   theme: theme(value.isLightTheme),
                   debugShowCheckedModeBanner: false,
                   home: Consumer<AuthNotifier>(
-                      builder: ((context, value, child) =>
-                          FirebaseAuth.instance.currentUser != null &&
-                                  value.isLoggedIn
-                              ? const HomePage()
-                              : const AuthPage())))),
+                      builder: ((context, value, child) => value.email!.isEmpty
+                          ? const AuthPage()
+                          : const HomePage())))),
         ));
   }
 }
