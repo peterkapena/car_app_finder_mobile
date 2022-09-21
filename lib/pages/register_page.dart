@@ -1,3 +1,4 @@
+import 'package:car_app_finder_mobile/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,11 +49,11 @@ class _RegisterPageState extends State<RegisterPage> {
         _processing = !_processing;
         showLoading(context);
         await Future.delayed(const Duration(seconds: 3));
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim());
 
-        var user = FirebaseAuth.instance.currentUser;
+        var user = UserApiService()
+            .login(XUser(password: _passwordController.text.trim(),
+            email: _emailController.text.trim(),
+            tokenForAnonymous: ));
 
         if (user != null) {
           await gotoHomePage();
