@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../common.dart';
-import '../services/firease.dart';
 import '../widget/text_input.dart';
 
 class CarEditPage extends StatefulWidget {
@@ -43,7 +42,7 @@ class _CarEditPageState extends State<CarEditPage> {
       "trackerId": _trackerIdController.text.trim()
     };
 
-    await carsRef.doc(widget.car.id).update(data);
+    // await carsRef.doc(widget.car.id).update(data);
     // await simulate();
 
     if (mounted) showNotice(context, "The car has been updated");

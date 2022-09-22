@@ -1,7 +1,8 @@
 import 'package:car_app_finder_mobile/auth_change_modifier.dart';
+import 'package:car_app_finder_mobile/models/user.dart';
+import 'package:car_app_finder_mobile/services/user_service.dart';
 import 'package:car_app_finder_mobile/widget/auth_button.dart';
 import 'package:car_app_finder_mobile/widget/text_input.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,18 +40,20 @@ class _LoginPageState extends State<LoginPage> {
         });
         showLoading(context, "Signing in..");
 
-        var user = FirebaseAuth.instance.currentUser;
+        var user = Provider.of<AuthNotifier>(context, listen: false).user;
+
         if (user != null) {
-          await gotoHomePage();
+          await gotoHomePage(user);
           return;
         }
 
-        var userCred = await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim());
+        user = await UserApiService().login(User(
+          password: _passwordController.text.trim(),
+          email: _emailController.text.trim(),
+        ));
 
-        if (userCred.user != null) {
-          await gotoHomePage();
+        if (user != null) {
+          await gotoHomePage(user);
         } else if (mounted) {
           showNotice(
               context, "Log in failed. Please contact support for help.");
@@ -65,10 +68,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> gotoHomePage() async {
+  Future<void> gotoHomePage(User user) async {
     if (mounted) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      await Provider.of<AuthNotifier>(context, listen: false).setAuth(true);
+      await Provider.of<AuthNotifier>(context, listen: false).setAuth(user);
     }
   }
 

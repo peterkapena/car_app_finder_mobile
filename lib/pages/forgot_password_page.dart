@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,14 +37,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         });
         showLoading(context);
         await Future.delayed(const Duration(seconds: 1));
-        await FirebaseAuth.instance
-            .sendPasswordResetEmail(
-              email: _emailController.text.trim(),
-            )
-            .then((value) => {
-                  if (mounted)
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar()
-                });
+        // await FirebaseAuth.instance
+        //     .sendPasswordResetEmail(
+        //       email: _emailController.text.trim(),
+        //     )
+        //     .then((value) => {
+        //           if (mounted)
+        //             ScaffoldMessenger.of(context).hideCurrentSnackBar()
+        //         });
       }
     } catch (e) {
       if (kDebugMode) print(e);

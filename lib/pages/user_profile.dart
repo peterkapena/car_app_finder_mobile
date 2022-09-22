@@ -1,5 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:car_app_finder_mobile/auth_change_modifier.dart';
+import 'package:car_app_finder_mobile/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -9,7 +11,17 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  final _user = FirebaseAuth.instance.currentUser;
+  User? _user;
+
+  @override
+  void initState() {
+    _setUser();
+    super.initState();
+  }
+
+  _setUser() {
+    _user = Provider.of<AuthNotifier>(context, listen: false).user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +33,7 @@ class _UserProfileState extends State<UserProfile> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Id:    ${_user!.uid}"),
+              child: Text("Id:    ${_user?.id}"),
             )
           ],
         ))));

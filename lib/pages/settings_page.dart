@@ -1,5 +1,4 @@
 import 'package:car_app_finder_mobile/pages/user_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,11 +17,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> logout() async {
     try {
       showLoading(context);
-      await FirebaseAuth.instance.signOut();
 
-      if (mounted) {
-        await Provider.of<AuthNotifier>(context, listen: false).setAuth(true);
-      }
+      await Provider.of<AuthNotifier>(context, listen: false).signout();
+
       if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
       if (mounted) Navigator.pop(context);
     } catch (e) {

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../common.dart';
-import '../services/firease.dart';
 import 'history_page.dart';
 
 class CarPage extends StatefulWidget {
@@ -42,7 +41,7 @@ class _CarPageState extends State<CarPage> {
       "trackerId": _trackerIdController.text.trim()
     };
 
-    await carsRef.doc(widget.car.id).update(data);
+    // await carsRef.doc(widget.car.id).update(data);
     // await simulate();
 
     if (mounted) showNotice(context, "The car has been updated");
@@ -160,7 +159,7 @@ class _CarPageState extends State<CarPage> {
                             backgroundColor: Theme.of(context).errorColor,
                           ),
                           onPressed: () {
-                            carsRef.doc(widget.car.id).delete();
+                            // carsRef.doc(widget.car.id).delete();
                             Navigator.pop(context);
                           },
                           child: const Text(

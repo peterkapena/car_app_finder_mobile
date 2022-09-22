@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
                   theme: theme(value.isLightTheme),
                   debugShowCheckedModeBanner: false,
                   home: Consumer<AuthNotifier>(
-                      builder: ((context, value, child) => value.email!.isEmpty
-                          ? const AuthPage()
-                          : const HomePage())))),
+                      builder: ((context, value, child) => value.isLoggedIn
+                          ? const HomePage()
+                          : const AuthPage())))),
         ));
   }
 }

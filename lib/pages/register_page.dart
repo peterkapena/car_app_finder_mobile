@@ -1,5 +1,5 @@
+import 'package:car_app_finder_mobile/models/user.dart';
 import 'package:car_app_finder_mobile/services/user_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -36,10 +36,11 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  Future<void> gotoHomePage() async {
+  Future<void> gotoHomePage(User user) async {
     if (mounted) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      await Provider.of<AuthNotifier>(context, listen: false).setAuth(true);
+
+      await Provider.of<AuthNotifier>(context, listen: false).setAuth(user);
     }
   }
 
@@ -50,13 +51,13 @@ class _RegisterPageState extends State<RegisterPage> {
         showLoading(context);
         await Future.delayed(const Duration(seconds: 3));
 
-        var user = UserApiService()
-            .login(XUser(password: _passwordController.text.trim(),
-            email: _emailController.text.trim(),
-            tokenForAnonymous: ));
+        var user = await UserApiService().login(User(
+          password: _passwordController.text.trim(),
+          email: _emailController.text.trim(),
+        ));
 
         if (user != null) {
-          await gotoHomePage();
+          await gotoHomePage(user);
           return;
         } else if (mounted) {
           showNotice(
