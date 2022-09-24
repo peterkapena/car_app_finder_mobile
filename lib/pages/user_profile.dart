@@ -34,6 +34,10 @@ class _UserProfileState extends State<UserProfile> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text("Id:    ${_user?.id}"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Email:    ${_user?.email}"),
             )
           ],
         ))));

@@ -23,7 +23,7 @@ class _CarPageState extends State<CarPage> {
   void initState() {
     setState(() {
       _nameController.text = widget.car.name;
-      _trackerIdController.text = widget.car.trackerId;
+      _trackerIdController.text = widget.car.trackerSerialNumber;
     });
     super.initState();
   }
@@ -104,7 +104,7 @@ class _CarPageState extends State<CarPage> {
                                   borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                widget.car.trackerId,
+                                widget.car.trackerSerialNumber,
                                 style: const TextStyle(fontSize: 15),
                               ),
                             ),
@@ -124,8 +124,8 @@ class _CarPageState extends State<CarPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => HistoryPage(
-                                          carId: widget.car.id,
-                                          trackerId: widget.car.trackerId,
+                                          trackerId:
+                                              widget.car.trackerSerialNumber,
                                         )),
                               )),
                           child: const Text(

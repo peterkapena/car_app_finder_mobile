@@ -1,7 +1,11 @@
+import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/models/car.dart';
+import 'package:car_app_finder_mobile/models/user.dart';
+import 'package:car_app_finder_mobile/services/car_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../common.dart';
 import '../widget/text_input.dart';
@@ -18,8 +22,18 @@ class _AddAcarPageState extends State<AddAcarPage> {
   final _nameController = TextEditingController();
   final _trackerIdController = TextEditingController();
   bool _processing = false;
-  // CollectionReference cars =
-  //     FirebaseFirestore.instance.collection(carCollectionName);
+  User? _user;
+  CarApiService carApiService = CarApiService();
+
+  @override
+  void initState() {
+    _setUser();
+    super.initState();
+  }
+
+  _setUser() {
+    _user = Provider.of<AuthNotifier>(context, listen: false).user;
+  }
 
   @override
   void dispose() {
@@ -29,15 +43,12 @@ class _AddAcarPageState extends State<AddAcarPage> {
   }
 
   Future submit() async {
-    // await simulate();
-    // var user = FirebaseAuth.instance.currentUser;
-    // var c = Car(
-    //     id: "",
-    //     name: _nameController.text.trim(),
-    //     trackerId: _trackerIdController.text.trim(),
-    //     userId: user!.uid);
+    var car = Car(
+        trackerSerialNumber: _trackerIdController.text.trim(),
+        name: _nameController.text.trim(),
+        userId: _user?.id ?? "");
+    car = await carApiService.addCar(car);
 
-    // await cars.add(c.toJson());
     if (mounted) showNotice(context, "The car has been added");
   }
 

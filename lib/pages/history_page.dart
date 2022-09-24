@@ -4,11 +4,9 @@ import 'package:location/location.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class HistoryPage extends StatefulWidget {
-  final String carId;
   final String trackerId;
   const HistoryPage({
     super.key,
-    required this.carId,
     required this.trackerId,
   });
 

@@ -1,25 +1,21 @@
 class Car {
+  final String trackerSerialNumber;
   final String name;
-  final String trackerId;
   final String userId;
-  final String id;
 
   Car(
-      {required this.id,
+      {required this.trackerSerialNumber,
       required this.name,
-      required this.trackerId,
       required this.userId});
 
-  Car.fromJson(Map<String, dynamic> json, this.id)
-      : name = json['name'],
-        trackerId = json['trackerId'],
+  Car.fromJson(Map<String, dynamic> json)
+      : trackerSerialNumber = json['trackerSerialNumber'],
+        name = json['name'],
         userId = json['userId'];
 
   Map<String, dynamic> toJson() => {
         'name': name,
-        'trackerId': trackerId,
+        'trackerSerialNumber': trackerSerialNumber,
         'userId': userId,
       };
 }
-
-enum CarQuery { userId }

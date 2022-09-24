@@ -24,7 +24,7 @@ class _CarEditPageState extends State<CarEditPage> {
   void initState() {
     setState(() {
       _nameController.text = widget.car.name;
-      _trackerIdController.text = widget.car.trackerId;
+      _trackerIdController.text = widget.car.trackerSerialNumber;
     });
     super.initState();
   }
