@@ -59,4 +59,21 @@ class CarApiService extends ApiService {
       throw Exception(response.reasonPhrase);
     }
   }
+
+  Future<String> getRecentCoord(String trackerSerialNumber) async {
+    if (trackerSerialNumber.isEmpty) return "";
+
+    var url = "$baseUrl${_carUrl}getrecentcoord/$trackerSerialNumber";
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    if (response.statusCode == StatusCode.ok) {
+      return response.body;
+    } else {
+      return "";
+    }
+  }
 }

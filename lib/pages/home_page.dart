@@ -1,13 +1,15 @@
 import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/common.dart';
 import 'package:car_app_finder_mobile/models/car.dart';
+import 'package:car_app_finder_mobile/models/response_error.dart';
 import 'package:car_app_finder_mobile/models/user.dart';
 import 'package:car_app_finder_mobile/pages/car_page.dart';
+import 'package:car_app_finder_mobile/pages/map_page.dart';
 import 'package:car_app_finder_mobile/services/car_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
 
 import 'add_a_car_page.dart';
 import 'settings_page.dart';
@@ -149,22 +151,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           )),
                                       onTap: () {
-                                        // var rr = trackerRef
-                                        //     .doc("QXWTayAEqQSpjQvGgWFh")
-                                        //     .get()
-                                        //     .then((value) {
-
-                                        // Tracker tracker = Tracker("drr.id",
-                                        //     "-33.934657179940366, 18.406920104103524");
-
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(builder: (context) {
-                                        //     return MapPage(
-                                        //       tracker: tracker,
-                                        //     );
-                                        //   }),
-                                        // );
+                                        goToMapMage(car);
                                       }));
                             }),
                       );
@@ -174,5 +161,35 @@ class _HomePageState extends State<HomePage> {
         ])),
       ),
     );
+  }
+
+  Future goToMapMage(Car car) async {
+    try {
+      var coord = await _carApiService.getRecentCoord(car.trackerSerialNumber);
+      if (coord.isEmpty) {
+        if (mounted) {
+          showNotice(context, "There is no coordinate info yet for this car");
+        }
+        return;
+      }
+
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return MapPage(
+              car: car,
+              initialCoord: coord,
+            );
+          }),
+        );
+      }
+    } on ServiceValidationException catch (e) {
+      if (kDebugMode) print(e);
+
+      showNotice(context, e.toString());
+    } catch (e) {
+      showNotice(context, e.toString());
+    }
   }
 }

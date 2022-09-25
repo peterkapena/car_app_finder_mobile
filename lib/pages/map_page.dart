@@ -1,23 +1,28 @@
+import 'dart:async';
+
 import 'package:car_app_finder_mobile/common.dart';
-import 'package:car_app_finder_mobile/models/tracker.dart';
+import 'package:car_app_finder_mobile/models/car.dart';
+import 'package:car_app_finder_mobile/services/car_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MapPage extends StatefulWidget {
-  final Tracker tracker;
-  const MapPage({super.key, required this.tracker});
+  final Car car;
+  final String initialCoord;
+  const MapPage({super.key, required this.car, required this.initialCoord});
 
   @override
   State<MapPage> createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
-  // LocationData? _currentPosition;
   Location location = Location();
   String _url = "";
-  // String _queryString = "";
   WebViewController? _webViewController;
+  final CarApiService _carApiService = CarApiService();
+  String _carLatLng = "";
 
   @override
   void dispose() {
@@ -32,24 +37,45 @@ class _MapPageState extends State<MapPage> {
 
   _getLoc() async {
     if (await _locationIsEnabledAndGranted()) {
-      // var currentPosition = await location.getLocation();
-      // _setQueryStr(currentPosition);
+      // const period = Duration(seconds: 5);
+
+      // Timer.periodic(
+      //     period,
+      //     (Timer t) => {
+      //           _carApiService
+      //               .getRecentCoord(widget.car.trackerSerialNumber)
+      //               .then((value) {
+      //             if (value.isNotEmpty) {
+      //               _carLatLng = value;
+      //               setState(() {});
+      //             }
+      //           })
+      //         });
+
       location.onLocationChanged.listen((LocationData currentLocation) {
         _setQueryStr(currentLocation);
       });
     }
   }
 
-  void _setQueryStr(LocationData? currentPosition) {
+  void _setQueryStr(LocationData? currentPosition) async {
     if (currentPosition != null) {
+      _carLatLng =
+          await _carApiService.getRecentCoord(widget.car.trackerSerialNumber);
+
       var url =
-          "$mapUrl?fLatLng=${currentPosition.latitude},${currentPosition.longitude}&tLatLng=${widget.tracker.position}";
+          "$mapUrl?fLatLng=${currentPosition.latitude},${currentPosition.longitude}&tLatLng=$_carLatLng";
 
       if (url != _url) {
-        setState(() {
-          _url = url;
-        });
-        _webViewController?.loadUrl(_url);
+        try {
+          setState(() {
+            if (kDebugMode) print(url);
+            _url = url;
+          });
+          _webViewController?.loadUrl(_url);
+        } catch (e) {
+          if (kDebugMode) print(e.toString());
+        }
       }
     }
   }
