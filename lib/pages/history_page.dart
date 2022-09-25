@@ -23,8 +23,8 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   String _getUrl() {
-    // var u = "$mapUrl?c=${widget.carId}&t=${widget.trackerId}";
-    return historyUrlTest;
+    var url = "${mapUrl}history/?c=${widget.trackerId}";
+    return url;
   }
 
   @override
