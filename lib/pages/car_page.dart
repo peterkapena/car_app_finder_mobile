@@ -1,5 +1,5 @@
 import 'package:car_app_finder_mobile/models/car.dart';
-import 'package:car_app_finder_mobile/pages/car_edit_page.dart';
+import 'package:car_app_finder_mobile/services/car_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,6 +18,7 @@ class _CarPageState extends State<CarPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _trackerIdController = TextEditingController();
+  final CarApiService _carApiService = CarApiService();
 
   @override
   void initState() {
@@ -33,18 +34,6 @@ class _CarPageState extends State<CarPage> {
     _nameController.dispose();
     _trackerIdController.dispose();
     super.dispose();
-  }
-
-  Future submit() async {
-    Map<String, Object?> data = {
-      "name": _nameController.text.trim(),
-      "trackerId": _trackerIdController.text.trim()
-    };
-
-    // await carsRef.doc(widget.car.id).update(data);
-    // await simulate();
-
-    if (mounted) showNotice(context, "The car has been updated");
   }
 
   @override
@@ -136,40 +125,23 @@ class _CarPageState extends State<CarPage> {
                                 color: Colors.white),
                           ),
                         ),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                          ),
-                          onPressed: (() => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CarEditPage(car: widget.car)),
-                              )),
-                          child: const Text(
-                            "Edit",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Theme.of(context).errorColor,
-                          ),
-                          onPressed: () {
-                            // carsRef.doc(widget.car.id).delete();
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            "Delete",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ),
+                        // OutlinedButton(
+                        //   style: OutlinedButton.styleFrom(
+                        //     backgroundColor: Theme.of(context).errorColor,
+                        //   ),
+                        //   onPressed: () async {
+                        //     await _carApiService
+                        //         .deleteCar(widget.car.trackerSerialNumber);
+                        //     if (mounted) Navigator.pop(context);
+                        //   },
+                        //   child: const Text(
+                        //     "Delete",
+                        //     style: TextStyle(
+                        //         fontSize: 15,
+                        //         fontWeight: FontWeight.bold,
+                        //         color: Colors.white),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

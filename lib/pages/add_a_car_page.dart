@@ -1,5 +1,6 @@
 import 'package:car_app_finder_mobile/auth_change_modifier.dart';
 import 'package:car_app_finder_mobile/models/car.dart';
+import 'package:car_app_finder_mobile/models/response_error.dart';
 import 'package:car_app_finder_mobile/models/user.dart';
 import 'package:car_app_finder_mobile/services/car_service.dart';
 import 'package:flutter/foundation.dart';
@@ -61,11 +62,13 @@ class _AddAcarPageState extends State<AddAcarPage> {
         showNotice(context, "Adding car..");
         await submit();
       }
-    } catch (e) {
+    } on ServiceValidationException catch (e) {
       if (kDebugMode) print(e);
       setState(() {
         _processing = !_processing;
       });
+      showNotice(context, e.toString());
+    } catch (e) {
       showNotice(context, e.toString());
     }
   }

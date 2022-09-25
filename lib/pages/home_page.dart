@@ -21,7 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   User? _user;
-  CarApiService carApiService = CarApiService();
+  final CarApiService _carApiService = CarApiService();
 
   @override
   void initState() {
@@ -38,12 +38,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // trackerRef.doc("QXWTayAEqQSpjQvGgWFh").get().then((value) {
-          //   print(value.data());
-          // });
           Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const AddAcarPage()))
-              .then((res) => setState(() {}));
+              .then((res) => setState(() {
+                    setState(() {});
+                  }));
         },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add),
@@ -95,7 +94,7 @@ class _HomePageState extends State<HomePage> {
               : Expanded(
                   child: SizedBox(
                   child: FutureBuilder<List<Car>>(
-                    future: carApiService.getCars(_user!.id ?? ""),
+                    future: _carApiService.getCars(_user!.id ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return Center(
@@ -127,12 +126,11 @@ class _HomePageState extends State<HomePage> {
                                   background: Container(
                                     color: Theme.of(context).errorColor,
                                   ),
-                                  key: ValueKey<Car>(car),
+                                  key: UniqueKey(),
                                   onDismissed: (DismissDirection direction) {
-                                    // carsRef
-                                    //     .doc(car.id)
-                                    //     .delete()
-                                    //     .then((value) => setState(() {}));
+                                    _carApiService
+                                        .deleteCar(car.trackerSerialNumber)
+                                        .then((value) => setState(() {}));
                                   },
                                   child: ListTile(
                                       iconColor: Theme.of(context).primaryColor,
